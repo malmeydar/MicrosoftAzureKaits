@@ -22,7 +22,7 @@
 				"          FirstName as string,",
 				"          MiddleName as string,",
 				"          LastName as string,",
-				"          BirthDate as string,",
+				"          BirthDate as date,",
 				"          MaritalStatus as string,",
 				"          Suffix as string,",
 				"          Gender as string,",
