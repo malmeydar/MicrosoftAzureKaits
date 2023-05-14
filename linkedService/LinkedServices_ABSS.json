@@ -1,0 +1,12 @@
+{
+	"name": "LinkedServices_ABSS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=kaitsblobstorage;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDhEOUREMkIyLTRBNDctNEY5Qy04NEIzLTAxMjNBMEM1Q0Y3Nl81NTgyN2MyOS0zZDMwLTRiNmYtYjA5Ny0xZDU3YjA4NmRlMmYiDQp9"
+		}
+	}
+}

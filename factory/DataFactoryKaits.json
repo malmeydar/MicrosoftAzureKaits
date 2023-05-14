@@ -1,0 +1,9 @@
+{
+	"name": "DataFactoryKaits",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "23618021-8bad-48d8-aaa0-e5ed3b3865a5",
+		"tenantId": "db6ae443-ba4e-491e-9375-7146e8f5f594"
+	}
+}
