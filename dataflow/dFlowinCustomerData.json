@@ -41,7 +41,7 @@
 				"          AddressLine1 as string,",
 				"          AddressLine2 as string,",
 				"          Phone as string,",
-				"          DateFirstPurchase as string,",
+				"          DateFirstPurchase as date,",
 				"          CommuteDistance as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
