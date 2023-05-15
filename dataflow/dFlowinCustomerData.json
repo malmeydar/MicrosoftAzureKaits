@@ -20,7 +20,11 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "MergeCustonDataDimGeography"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          CustomerAlternateKey as string,",
@@ -70,7 +74,13 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> InDimGeography"
+				"     format: 'table') ~> InDimGeography",
+				"inCustomerData, InDimGeography join(inCustomerData@City == InDimGeography@City",
+				"     && inCustomerData@CountryRegionCode == InDimGeography@CountryRegionCode,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> MergeCustonDataDimGeography"
 			]
 		}
 	}
