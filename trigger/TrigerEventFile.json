@@ -1,0 +1,24 @@
+{
+	"name": "TrigerEventFile",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PipelineKaits",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/kaitsfiles/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/c3e3ad79-823c-43e1-b981-9fd1412b9b88/resourceGroups/GroupKaitsConsulting/providers/Microsoft.Storage/storageAccounts/kaitsblobstorage",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
