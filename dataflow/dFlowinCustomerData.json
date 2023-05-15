@@ -161,7 +161,6 @@
 				"     insertable:false,",
 				"     updateable:false,",
 				"     upsertable:true,",
-				"     keys:['GeographyKey'],",
 				"     skipKeyWrites:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
