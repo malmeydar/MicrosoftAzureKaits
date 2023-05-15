@@ -3,7 +3,26 @@
 	"properties": {
 		"type": "WranglingDataFlow",
 		"typeProperties": {
-			"sources": []
+			"sources": [
+				{
+					"name": "inCustomerData",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~>  inCustomerData",
+					"dataset": {
+						"referenceName": "inCustomerData",
+						"type": "DatasetReference"
+					}
+				},
+				{
+					"name": "outDimGeography",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~>  outDimGeography",
+					"dataset": {
+						"referenceName": "outDimGeography",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"script": "section Section1;\r\nshared inCustomerData = let AdfDoc = AzureStorage.BlobContents(\"https://kaitsblobstorage.blob.core.windows.net/kaitsfiles/CustomerData.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared outDimGeography = let AdfDoc = Sql.Database(\"serverkaits01.database.windows.net\", \"Kaits\", [CreateNavigationProperties = false]), InputTable = AdfDoc{[Schema=\"dbo\",Item=\"DimGeography\"]}[Data] in InputTable;\r\nshared UserQuery = let Source = #\"inCustomerData\" in Source;\r\n",
+			"documentLocale": "en-us"
 		}
 	}
 }
