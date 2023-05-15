@@ -25,7 +25,7 @@
 						"referenceName": "LinckedServices_SQLDB",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink1"
+					"name": "sinkCustomerDataExcel"
 				}
 			],
 			"transformations": [
@@ -123,7 +123,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectImputDimCustomer",
 				"SelectImputDimCustomer sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
@@ -163,7 +163,7 @@
 				"          Phone,",
 				"          DateFirstPurchase,",
 				"          CommuteDistance",
-				"     )) ~> sink1"
+				"     )) ~> sinkCustomerDataExcel"
 			]
 		}
 	}
