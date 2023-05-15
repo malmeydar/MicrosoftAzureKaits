@@ -17,6 +17,9 @@
 		"LinckedServices_ADLS_properties_typeProperties_url": {
 			"value": "https://kaitsblobstorage.dfs.core.windows.net/"
 		},
+		"TrigerEventFile_properties_typeProperties_scope": {
+			"value": "/subscriptions/c3e3ad79-823c-43e1-b981-9fd1412b9b88/resourceGroups/GroupKaitsConsulting/providers/Microsoft.Storage/storageAccounts/kaitsblobstorage"
+		},
 		"containerUri": {
 			"value": ""
 		},

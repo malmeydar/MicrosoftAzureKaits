@@ -23,6 +23,10 @@
 			"type": "string",
 			"defaultValue": "https://kaitsblobstorage.dfs.core.windows.net/"
 		},
+		"TrigerEventFile_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/c3e3ad79-823c-43e1-b981-9fd1412b9b88/resourceGroups/GroupKaitsConsulting/providers/Microsoft.Storage/storageAccounts/kaitsblobstorage"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -61,6 +65,9 @@
 					},
 					"LinckedServices_ADLS_properties_typeProperties_url": {
 						"value": "[parameters('LinckedServices_ADLS_properties_typeProperties_url')]"
+					},
+					"TrigerEventFile_properties_typeProperties_scope": {
+						"value": "[parameters('TrigerEventFile_properties_typeProperties_scope')]"
 					}
 				}
 			},
