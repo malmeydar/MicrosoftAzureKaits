@@ -68,9 +68,6 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
-								"source": {
-									"name": ""
-								},
 								"sink": {
 									"name": "CustomerKey",
 									"type": "Int32",
@@ -410,7 +407,8 @@
 						"referenceName": "outDimCustomer",
 						"type": "DatasetReference"
 					}
-				]
+				],
+				"enableIdentityInsert": true
 			}
 		],
 		"annotations": []
