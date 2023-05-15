@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"name": "inCustomerData",
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~>  inCustomerData",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> inCustomerData",
 					"dataset": {
 						"referenceName": "inCustomerData",
 						"type": "DatasetReference"
@@ -14,7 +14,7 @@
 				},
 				{
 					"name": "outDimGeography",
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~>  outDimGeography",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> outDimGeography",
 					"dataset": {
 						"referenceName": "outDimGeography",
 						"type": "DatasetReference"
