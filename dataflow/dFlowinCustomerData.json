@@ -19,24 +19,13 @@
 					"name": "InDimGeography"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "outDimCustomer",
-						"type": "DatasetReference"
-					},
-					"name": "sinkSQLServerCustomerData"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
 					"name": "MergeCustonDataDimGeography"
 				},
 				{
 					"name": "SelectImputDimCustomer"
-				},
-				{
-					"name": "AlterRowUpsetDimCustomer"
 				}
 			],
 			"scriptLines": [
@@ -124,72 +113,7 @@
 				"          CommuteDistance",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelectImputDimCustomer",
-				"SelectImputDimCustomer alterRow() ~> AlterRowUpsetDimCustomer",
-				"AlterRowUpsetDimCustomer sink(allowSchemaDrift: true,",
-				"     validateSchema: true,",
-				"     input(",
-				"          CustomerKey as integer,",
-				"          GeographyKey as integer,",
-				"          CustomerAlternateKey as string,",
-				"          FirstName as string,",
-				"          MiddleName as string,",
-				"          LastName as string,",
-				"          BirthDate as date,",
-				"          MaritalStatus as string,",
-				"          Suffix as string,",
-				"          Gender as string,",
-				"          EmailAddress as string,",
-				"          YearlyIncome as decimal(19,4),",
-				"          TotalChildren as integer,",
-				"          NumberChildrenAtHome as integer,",
-				"          EnglishEducation as string,",
-				"          SpanishEducation as string,",
-				"          FrenchEducation as string,",
-				"          EnglishOccupation as string,",
-				"          SpanishOccupation as string,",
-				"          FrenchOccupation as string,",
-				"          HouseOwnerFlag as string,",
-				"          NumberCarsOwned as integer,",
-				"          AddressLine1 as string,",
-				"          AddressLine2 as string,",
-				"          Phone as string,",
-				"          DateFirstPurchase as date,",
-				"          CommuteDistance as string",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:false,",
-				"     updateable:false,",
-				"     upsertable:true,",
-				"     skipKeyWrites:true,",
-				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          GeographyKey,",
-				"          CustomerAlternateKey,",
-				"          FirstName,",
-				"          MiddleName,",
-				"          LastName,",
-				"          BirthDate,",
-				"          MaritalStatus,",
-				"          Suffix,",
-				"          Gender,",
-				"          EmailAddress,",
-				"          EnglishEducation,",
-				"          SpanishEducation,",
-				"          FrenchEducation,",
-				"          EnglishOccupation,",
-				"          SpanishOccupation,",
-				"          FrenchOccupation,",
-				"          HouseOwnerFlag,",
-				"          AddressLine1,",
-				"          AddressLine2,",
-				"          Phone,",
-				"          DateFirstPurchase,",
-				"          CommuteDistance",
-				"     )) ~> sinkSQLServerCustomerData"
+				"     skipDuplicateMapOutputs: true) ~> SelectImputDimCustomer"
 			]
 		}
 	}
