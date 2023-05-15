@@ -29,14 +29,7 @@
 			{
 				"name": "CDDimCustomer",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "DFlowsCustomerDataExcel",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -55,10 +48,11 @@
 						"type": "AzureSqlSink",
 						"writeBehavior": "upsert",
 						"upsertSettings": {
-							"useTempDB": true,
+							"useTempDB": false,
 							"keys": [
 								"CustomerKey"
-							]
+							],
+							"interimSchemaName": ""
 						},
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
@@ -400,8 +394,7 @@
 						"referenceName": "outDimCustomer",
 						"type": "DatasetReference"
 					}
-				],
-				"enableIdentityInsert": true
+				]
 			}
 		],
 		"annotations": []
