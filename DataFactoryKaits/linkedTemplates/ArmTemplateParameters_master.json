@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DataFactoryKaits"
+		},
+		"LinckedServices_ADLS_accountKey": {
+			"value": ""
+		},
+		"LinckedServices_SQLDB_connectionString": {
+			"value": ""
+		},
+		"LinkedServices_ABSS_connectionString": {
+			"value": ""
+		},
+		"LinckedServices_ADLS_properties_typeProperties_url": {
+			"value": "https://kaitsblobstorage.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
