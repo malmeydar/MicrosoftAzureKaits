@@ -33,17 +33,17 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/PipelineKaits')]",
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "DFlowCargaDimCustomers",
+						"name": "DFlowSelectDimcustomer",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
-							"timeout": "",
+							"timeout": "0.12:00:00",
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
@@ -58,7 +58,7 @@
 								"datasetParameters": {
 									"inCustomerData": {},
 									"InDimGeography": {},
-									"sinkSQLServerCustomerData": {}
+									"sinkCustomerDataExcel": {}
 								}
 							},
 							"staging": {},
@@ -78,6 +78,24 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dFlowinCustomerData')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataSetPreData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LinckedServices_SQLDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LinckedServices_SQLDB')]"
 			]
 		},
 		{
@@ -466,6 +484,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/TrigerEventFile')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/kaitsfiles/blobs/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('TrigerEventFile_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PQConsultaToDimCustomer')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -524,11 +562,11 @@
 					],
 					"sinks": [
 						{
-							"dataset": {
-								"referenceName": "outDimCustomer",
-								"type": "DatasetReference"
+							"linkedService": {
+								"referenceName": "LinckedServices_SQLDB",
+								"type": "LinkedServiceReference"
 							},
-							"name": "sinkSQLServerCustomerData"
+							"name": "sinkCustomerDataExcel"
 						}
 					],
 					"transformations": [
@@ -537,9 +575,6 @@
 						},
 						{
 							"name": "SelectImputDimCustomer"
-						},
-						{
-							"name": "AlterRowUpsetDimCustomer"
 						}
 					],
 					"scriptLines": [
@@ -628,45 +663,17 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SelectImputDimCustomer",
-						"SelectImputDimCustomer alterRow() ~> AlterRowUpsetDimCustomer",
-						"AlterRowUpsetDimCustomer sink(allowSchemaDrift: true,",
+						"SelectImputDimCustomer sink(allowSchemaDrift: true,",
 						"     validateSchema: true,",
-						"     input(",
-						"          CustomerKey as integer,",
-						"          GeographyKey as integer,",
-						"          CustomerAlternateKey as string,",
-						"          FirstName as string,",
-						"          MiddleName as string,",
-						"          LastName as string,",
-						"          BirthDate as date,",
-						"          MaritalStatus as string,",
-						"          Suffix as string,",
-						"          Gender as string,",
-						"          EmailAddress as string,",
-						"          YearlyIncome as decimal(19,4),",
-						"          TotalChildren as integer,",
-						"          NumberChildrenAtHome as integer,",
-						"          EnglishEducation as string,",
-						"          SpanishEducation as string,",
-						"          FrenchEducation as string,",
-						"          EnglishOccupation as string,",
-						"          SpanishOccupation as string,",
-						"          FrenchOccupation as string,",
-						"          HouseOwnerFlag as string,",
-						"          NumberCarsOwned as integer,",
-						"          AddressLine1 as string,",
-						"          AddressLine2 as string,",
-						"          Phone as string,",
-						"          DateFirstPurchase as date,",
-						"          CommuteDistance as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:true,",
-						"     keys:['GeographyKey'],",
-						"     skipKeyWrites:true,",
 						"     format: 'table',",
+						"     store: 'sqlserver',",
+						"     schemaName: 'dbo',",
+						"     tableName: 'CustomerDataExcel',",
+						"     insertable: true,",
+						"     updateable: false,",
+						"     deletable: false,",
+						"     upsertable: false,",
+						"     recreate: true,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
@@ -681,6 +688,9 @@
 						"          Suffix,",
 						"          Gender,",
 						"          EmailAddress,",
+						"          YearlyIncome,",
+						"          TotalChildren,",
+						"          NumberChildrenAtHome,",
 						"          EnglishEducation,",
 						"          SpanishEducation,",
 						"          FrenchEducation,",
@@ -688,49 +698,20 @@
 						"          SpanishOccupation,",
 						"          FrenchOccupation,",
 						"          HouseOwnerFlag,",
+						"          NumberCarsOwned,",
 						"          AddressLine1,",
 						"          AddressLine2,",
 						"          Phone,",
 						"          DateFirstPurchase,",
 						"          CommuteDistance",
-						"     )) ~> sinkSQLServerCustomerData"
+						"     )) ~> sinkCustomerDataExcel"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/inCustomerData')]",
 				"[concat(variables('factoryId'), '/datasets/outDimGeography')]",
-				"[concat(variables('factoryId'), '/datasets/outDimCustomer')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TrigerEventFile')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "PipelineKaits",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/kaitsfiles/blobs/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('TrigerEventFile_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PipelineKaits')]"
+				"[concat(variables('factoryId'), '/linkedServices/LinckedServices_SQLDB')]"
 			]
 		}
 	]
